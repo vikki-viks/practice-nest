@@ -1,4 +1,8 @@
+import { IsNumber, IsString } from 'class-validator';
+
 export class CreateBookDto {
-  readonly title: string;
-  readonly authorId: number;
+  @IsString()
+  title: string;
+  @IsNumber()
+  authorId: number;
 }
