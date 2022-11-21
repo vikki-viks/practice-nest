@@ -9,9 +9,6 @@ export class Author {
   @Column()
   name: string;
 
-  @Column()
-  titleOfBooks: string;
-
   @OneToMany(() => Book, (books) => books.title)
   books: Book;
 }

@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Author } from './author.entity';
 import { CreateAuthorDto } from './dto/create-author.dto';
+import { UpdateAuthorDto } from './dto/update-author.dto';
 
 @Injectable()
 export class AuthorService {
@@ -15,16 +16,26 @@ export class AuthorService {
   }
 
   async getById(id: number) {
-    return this.authorRepository.find({
+    return this.authorRepository.findOne({
       where: {
         id,
       },
     });
   }
 
-  async create({ name }: CreateAuthorDto) {
-    this.authorRepository.create({
+  create({ name }: CreateAuthorDto) {
+    return this.authorRepository.save({
       name,
     });
+  }
+
+  async delete(id: number) {
+    await this.authorRepository.delete(id);
+  }
+
+  async update(id: number, { name }: UpdateAuthorDto) {
+    const author = await this.authorRepository.findOne({ where: { id } });
+    author.name = name;
+    await this.authorRepository.save(author);
   }
 }

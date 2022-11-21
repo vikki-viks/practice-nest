@@ -31,10 +31,12 @@ export class AuthorController {
   }
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return 'Remove' + id;
+    this.authorService.delete(Number(id));
+    return `Delete author with id ${id}`;
   }
   @Put(':id')
   update(@Body() updateAuthorDto: UpdateAuthorDto, @Param('id') id: string) {
+    this.authorService.update(Number(id), updateAuthorDto);
     return `New name ${updateAuthorDto.name} `;
   }
 }

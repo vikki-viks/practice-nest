@@ -12,9 +12,10 @@ export const databaseProviders = [
         port: 5432,
         username: 'postgres',
         password: 'postgres',
-        database: 'book',
+        database: 'books',
         entities: [Author, Book],
         synchronize: true,
+        dropSchema: false,
       });
 
       return dataSource.initialize();

@@ -1,25 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Author } from './authors/author.entity';
-import { Book } from './books/book.entity';
+import { AuthorModule } from './authors/author.module';
+import { BookModule } from './books/book.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'books',
-      entities: [Author, Book],
-      synchronize: true,
-      migrations: [
-        /*...*/
-      ],
-      migrationsTableName: 'migration',
-    }),
-  ],
+  imports: [AuthorModule, BookModule],
   controllers: [],
   providers: [],
 })

@@ -12,7 +12,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { BookService } from './book.service';
 
 @Controller('book')
-export class AuthorController {
+export class BookController {
   constructor(private bookService: BookService) {}
   @Get()
   getAll() {
@@ -21,7 +21,7 @@ export class AuthorController {
 
   @Get(':id')
   getOne(@Param('id') id: string) {
-    return this.bookService.getById(id);
+    return this.bookService.getById(Number(id));
   }
   @Post()
   create(@Body() createBookDto: CreateBookDto) {
@@ -29,10 +29,12 @@ export class AuthorController {
   }
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return 'Remove' + id;
+    this.bookService.delete(Number(id));
+    return `Delete book with id ${id}`;
   }
   @Put(':id')
   update(@Body() updateBookDto: UpdateBookDto, @Param('id') id: string) {
+    this.bookService.update(Number(id), updateBookDto);
     return `New title ${updateBookDto.title} `;
   }
 }
