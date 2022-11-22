@@ -34,7 +34,7 @@ export class AuthorService {
   }
 
   async update(id: number, { name }: UpdateAuthorDto) {
-    const author = await this.authorRepository.findOne({ where: { id } });
+    const author = await this.authorRepository.findOneOrFail({ where: { id } });
     author.name = name;
     await this.authorRepository.save(author);
   }

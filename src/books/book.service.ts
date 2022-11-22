@@ -30,7 +30,7 @@ export class BookService {
   }
 
   async update(id: number, { title }: UpdateBookDto) {
-    const book = await this.bookRepository.findOne({ where: { id } });
+    const book = await this.bookRepository.findOneOrFail({ where: { id } });
     book.title = title;
     await this.bookRepository.save(book);
   }
