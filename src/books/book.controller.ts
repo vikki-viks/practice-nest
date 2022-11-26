@@ -6,10 +6,12 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { BookService } from './book.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('book')
 export class BookController {

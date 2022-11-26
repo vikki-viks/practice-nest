@@ -9,6 +9,7 @@ export class UserService {
     @Inject('USER_REPOSITORY')
     private userRepository: Repository<User>,
   ) {}
+
   create({ username, password }: CreateUserDto) {
     return this.userRepository.save({
       username,
