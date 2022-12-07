@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import nodemailer, { Transporter } from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 @Injectable()
 export class MailSenderService {
-  transporter: Transporter<SMTPTransport.SentMessageInfo>;
+  transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;
 
   constructor(private configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
@@ -19,13 +19,20 @@ export class MailSenderService {
     });
   }
 
-  async sendEmail() {
+  async sendEmail({
+    userMail,
+    subject,
+    text,
+  }: {
+    userMail: string;
+    subject: string;
+    text: string;
+  }) {
     await this.transporter.sendMail({
       from: '"Node js" <vicka.kudryavtseva@yandex.ru>',
-      to: 'vasua14735@icloud.com',
-      subject: 'Message from Node js',
-      text: 'This message was sent from Node js server.',
-      html: 'This <i>message</i> was sent from <strong>Node js</strong> server.',
+      to: userMail,
+      subject,
+      text,
     });
   }
 }
