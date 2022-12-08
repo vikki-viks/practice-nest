@@ -5,6 +5,7 @@ import { User } from './user.entity';
 import { hashPassword, validatePassword } from 'src/utils/filesecurity';
 import { InitiateRegistrationDto } from './dto/initiate-registration.dto';
 import { MailSenderService } from 'src/mail-sender/mail-sender.service';
+import { TemporaryTokenService } from 'src/temporary-token/temporary-token.service';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
     @Inject('USER_REPOSITORY')
     private userRepository: Repository<User>,
     private mailSenderService: MailSenderService,
+    private temporaryTokenService: TemporaryTokenService,
   ) {}
 
   async create({ username, password }: CreateUserDto) {
@@ -36,14 +38,14 @@ export class UserService {
   }
   async initiateRegistration({ email, password }: InitiateRegistrationDto) {
     const hash = await hashPassword(password);
-    await this.userRepository.save({
+    const user = await this.userRepository.save({
       username: email,
       password: hash,
     });
     await this.mailSenderService.sendEmail({
       userMail: email,
-      subject: 'test',
-      text: 'test2',
+      subject: 'This is your token',
+      text: await this.temporaryTokenService.issue(user.id),
     });
   }
 }
