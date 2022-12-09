@@ -8,7 +8,7 @@ export class TemporaryTokenService {
 
   async issue(userId: number) {
     const token = randomUUID();
-    await this.cacheManager.set(token, userId, 1000);
+    await this.cacheManager.set(token, userId, 100000);
     return token;
   }
 
