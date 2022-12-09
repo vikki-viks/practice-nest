@@ -30,7 +30,7 @@ export class UserService {
       return null;
     }
     const isMatch = await validatePassword(password, user.password);
-    if (isMatch) {
+    if (isMatch && user.isRegistered) {
       const { password, ...result } = user;
       return result;
     }
@@ -41,6 +41,7 @@ export class UserService {
     const user = await this.userRepository.save({
       username: email,
       password: hash,
+      isRegistered: false,
     });
     await this.mailSenderService.sendEmail({
       userMail: email,
