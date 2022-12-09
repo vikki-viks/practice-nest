@@ -6,6 +6,7 @@ import { hashPassword, validatePassword } from 'src/utils/filesecurity';
 import { InitiateRegistrationDto } from './dto/initiate-registration.dto';
 import { MailSenderService } from 'src/mail-sender/mail-sender.service';
 import { TemporaryTokenService } from 'src/temporary-token/temporary-token.service';
+import { FinishRegistrationDto } from './dto/finish-registration.dto';
 
 @Injectable()
 export class UserService {
@@ -47,6 +48,14 @@ export class UserService {
       userMail: email,
       subject: 'This is your token',
       text: await this.temporaryTokenService.issue(user.id),
+    });
+  }
+
+  async finishRegistration({ token }: FinishRegistrationDto) {
+    const userId = Number(await this.temporaryTokenService.validate(token));
+    this.userRepository.save({
+      id: userId,
+      isRegistered: true,
     });
   }
 }

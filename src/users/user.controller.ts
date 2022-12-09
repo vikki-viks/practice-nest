@@ -2,6 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { Public } from 'src/auth/public.decorator';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { FinishRegistrationDto } from './dto/finish-registration.dto';
 import { InitiateRegistrationDto } from './dto/initiate-registration.dto';
 import { UserService } from './user.service';
 
@@ -19,5 +20,10 @@ export class UserController {
     @Body() initiateRegistrationDto: InitiateRegistrationDto,
   ) {
     return this.userService.initiateRegistration(initiateRegistrationDto);
+  }
+  @Public()
+  @Post('finish')
+  finishRegistration(@Body() finishRegistrationDto: FinishRegistrationDto) {
+    return this.userService.finishRegistration(finishRegistrationDto);
   }
 }
